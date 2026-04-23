@@ -4,8 +4,11 @@ interface Props {
   candidates: Candidate[];
 }
 
-const priorityColors: Record<string, string> = {
-  P0: "var(--p0)", P1: "var(--p1)", P2: "var(--p2)", P3: "var(--p3)",
+const priorityText: Record<string, string> = {
+  P0: "text-p0", P1: "text-p1", P2: "text-p2", P3: "text-p3",
+};
+const priorityBg: Record<string, string> = {
+  P0: "bg-p0/10 border-p0/30", P1: "bg-p1/10 border-p1/30", P2: "bg-p2/10 border-p2/30", P3: "bg-p3/10 border-p3/30",
 };
 
 const ComparePanel = ({ candidates }: Props) => {
@@ -20,58 +23,21 @@ const ComparePanel = ({ candidates }: Props) => {
   ];
 
   return (
-    <div style={{
-      background: "var(--surface)",
-      border: "1px solid var(--border)",
-      borderRadius: "12px",
-      padding: "20px",
-      marginBottom: "20px",
-    }}>
-      <div style={{
-        fontFamily: "'DM Mono', monospace",
-        fontSize: "11px",
-        letterSpacing: "1px",
-        color: "var(--muted)",
-        marginBottom: "16px",
-      }}>
+    <div className="bg-surface border border-border rounded-xl p-5 mb-5">
+      <div className="font-mono text-xs tracking-widest text-muted mb-4">
         COMPARING {candidates.length} CANDIDATES
       </div>
-      <div style={{ display: "flex", gap: "12px" }}>
+      <div className="flex gap-3">
         {candidates.map((c) => (
-          <div key={c.id} style={{
-            flex: 1,
-            background: "var(--surface2)",
-            border: "1px solid var(--border)",
-            borderRadius: "10px",
-            padding: "16px",
-          }}>
-            <div style={{ fontWeight: 700, fontSize: "15px", marginBottom: "4px" }}>{c.name}</div>
-            <div style={{
-              display: "inline-block",
-              padding: "2px 8px",
-              borderRadius: "20px",
-              background: `${priorityColors[c.priorityLevel!]}22`,
-              color: priorityColors[c.priorityLevel!],
-              fontFamily: "'DM Mono', monospace",
-              fontSize: "10px",
-              marginBottom: "12px",
-              border: `1px solid ${priorityColors[c.priorityLevel!]}44`,
-            }}>
+          <div key={c.id} className="flex-1 bg-surface2 border border-border rounded-xl p-4">
+            <div className="font-bold text-sm text-white mb-1">{c.name}</div>
+            <span className={`inline-block px-2 py-0.5 rounded-full font-mono text-xs border mb-3 ${priorityText[c.priorityLevel!]} ${priorityBg[c.priorityLevel!]}`}>
               {c.priorityLevel}
-            </div>
+            </span>
             {fields.map((f) => (
-              <div key={f.key} style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: "6px 0",
-                borderBottom: "1px solid var(--border)",
-                fontSize: "13px",
-              }}>
-                <span style={{ color: "var(--muted)" }}>{f.label}</span>
-                <span style={{ fontFamily: "'DM Mono', monospace", fontWeight: 500 }}>
-                  {c[f.key] as number}
-                </span>
+              <div key={f.key} className="flex justify-between items-center py-1.5 border-b border-border text-sm last:border-0">
+                <span className="text-muted">{f.label}</span>
+                <span className="font-mono font-medium text-white">{c[f.key] as number}</span>
               </div>
             ))}
           </div>

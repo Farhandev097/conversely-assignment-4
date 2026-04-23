@@ -5,13 +5,20 @@ interface Props {
   onClose: () => void;
 }
 
-const priorityColors: Record<string, string> = {
-  P0: "var(--p0)", P1: "var(--p1)", P2: "var(--p2)", P3: "var(--p3)",
+const priorityText: Record<string, string> = {
+  P0: "text-p0", P1: "text-p1", P2: "text-p2", P3: "text-p3",
+};
+const priorityBadge: Record<string, string> = {
+  P0: "bg-p0/10 border-p0/30 text-p0",
+  P1: "bg-p1/10 border-p1/30 text-p1",
+  P2: "bg-p2/10 border-p2/30 text-p2",
+  P3: "bg-p3/10 border-p3/30 text-p3",
+};
+const priorityBar: Record<string, string> = {
+  P0: "bg-p0", P1: "bg-p1", P2: "bg-p2", P3: "bg-p3",
 };
 
 const CandidateModal = ({ candidate, onClose }: Props) => {
-  const color = priorityColors[candidate.priorityLevel!] ?? "var(--text)";
-
   const rows = [
     { label: "Assignment", value: candidate.assignment },
     { label: "Video", value: candidate.video },
@@ -23,100 +30,40 @@ const CandidateModal = ({ candidate, onClose }: Props) => {
   return (
     <div
       onClick={onClose}
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: "rgba(0,0,0,0.7)",
-        backdropFilter: "blur(4px)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        zIndex: 1000,
-      }}
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center z-50"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        style={{
-          background: "var(--surface)",
-          border: "1px solid var(--border)",
-          borderRadius: "16px",
-          width: "420px",
-          overflow: "hidden",
-          boxShadow: "0 24px 64px rgba(0,0,0,0.5)",
-        }}
+        className="bg-surface border border-border rounded-2xl w-96 overflow-hidden shadow-2xl"
       >
-        <div style={{
-          padding: "24px 24px 20px",
-          borderBottom: "1px solid var(--border)",
-          background: "var(--surface2)",
-          position: "relative",
-        }}>
-          <div style={{ width: "100%", height: "3px", background: color, borderRadius: "2px", marginBottom: "16px" }} />
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+        <div className="bg-surface2 px-6 pt-6 pb-5 border-b border-border">
+          <div className={`w-full h-0.5 ${priorityBar[candidate.priorityLevel!] ?? "bg-white"} rounded mb-4`} />
+          <div className="flex justify-between items-start">
             <div>
-              <h2 style={{ fontSize: "20px", fontWeight: 800, marginBottom: "4px" }}>{candidate.name}</h2>
-              <p style={{ color: "var(--muted)", fontSize: "13px" }}>{candidate.college}</p>
+              <h2 className="text-lg font-extrabold font-syne text-white mb-1">{candidate.name}</h2>
+              <p className="text-muted text-xs">{candidate.college}</p>
             </div>
-            <span style={{
-              padding: "4px 12px",
-              borderRadius: "20px",
-              background: `${color}22`,
-              color,
-              fontFamily: "'DM Mono', monospace",
-              fontSize: "12px",
-              border: `1px solid ${color}44`,
-            }}>
+            <span className={`px-3 py-1 rounded-full font-mono text-xs border ${priorityBadge[candidate.priorityLevel!]}`}>
               {candidate.priorityLevel}
             </span>
           </div>
         </div>
 
-        <div style={{ padding: "20px 24px" }}>
+        <div className="px-6 py-4">
           {rows.map((row) => (
-            <div key={row.label} style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              padding: "12px 0",
-              borderBottom: "1px solid var(--border)",
-            }}>
-              <span style={{ color: "var(--muted)", fontSize: "13px" }}>{row.label}</span>
-              <span style={{
-                fontFamily: "'DM Mono', monospace",
-                fontSize: "16px",
-                fontWeight: 600,
-                color: "var(--text)",
-              }}>
+            <div key={row.label} className="flex justify-between items-center py-3 border-b border-border last:border-0">
+              <span className="text-muted text-sm">{row.label}</span>
+              <span className={`font-mono text-lg font-semibold ${priorityText[candidate.priorityLevel!] ?? "text-white"}`}>
                 {row.value}
               </span>
             </div>
           ))}
         </div>
 
-        <div style={{ padding: "16px 24px 24px" }}>
+        <div className="px-6 pb-6">
           <button
             onClick={onClose}
-            style={{
-              width: "100%",
-              padding: "12px",
-              background: "var(--surface2)",
-              color: "var(--text)",
-              border: "1px solid var(--border)",
-              borderRadius: "8px",
-              fontSize: "14px",
-              fontFamily: "'Syne', sans-serif",
-              fontWeight: 600,
-              cursor: "pointer",
-              transition: "background 0.15s, border-color 0.15s",
-            }}
-            onMouseEnter={(e) => {
-              (e.target as HTMLButtonElement).style.background = "var(--border)";
-              (e.target as HTMLButtonElement).style.borderColor = "var(--muted)";
-            }}
-            onMouseLeave={(e) => {
-              (e.target as HTMLButtonElement).style.background = "var(--surface2)";
-              (e.target as HTMLButtonElement).style.borderColor = "var(--border)";
-            }}
+            className="w-full py-3 bg-surface2 text-white border border-border rounded-lg text-sm font-syne font-semibold cursor-pointer hover:bg-border transition-colors"
           >
             Close
           </button>

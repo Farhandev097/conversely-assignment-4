@@ -1,14 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+body {
+  background-color: #0d0f14;
+  color: #e8eaf0;
+  font-family: 'Syne', sans-serif;
 }
 
-input[type="number"] {
-  -moz-appearance: textfield;
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #14171f; }
+::-webkit-scrollbar-thumb { background: #252a38; border-radius: 3px; }
+
+.score-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: #252a38;
+  outline: none;
+  cursor: pointer;
+}
+.score-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #6ee7b7;
+  cursor: grab;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.score-slider::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  transform: scale(1.3);
+  box-shadow: 0 0 0 4px rgba(110,231,183,0.2);
+}
+.score-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #6ee7b7;
+  cursor: grab;
+  border: none;
 }
